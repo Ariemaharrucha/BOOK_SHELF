@@ -31,6 +31,7 @@
         const undoBtn = target.classList.contains('undoBtn');
         const doneBtn = target.classList.contains('doneBtn');
         const delBtn = target.classList.contains('delBtn');
+        const btnEdit = target.classList.contains('editBtn')
         const tes = target.closest('.book_item')
         
         if(undoBtn){
@@ -50,6 +51,10 @@
             delBook(id);
         }
 
+        if(btnEdit){
+            const id = tes.dataset.book_id;
+            editBook(id)
+        }
         
     })
 
@@ -113,13 +118,13 @@
         article_book.classList.add('book_item');
 
         const Book_Title = document.createElement('h3');
-        Book_Title.innerText = book.title;
+        Book_Title.innerText = ` ${book.title} `;
 
         const titleBook = document.createElement('p');
         const tahun = document.createElement('p');
 
-        titleBook.innerText = book.author;
-        tahun.innerText= book.year;
+        titleBook.innerText = `Penulis : ${book.author}`;
+        tahun.innerText= `Tahun Rilis : ${book.year}`;
 
     
         const divBtn = document.createElement('div');
@@ -131,6 +136,10 @@
         article_book.append(Book_Title,titleBook,tahun);
         article_book.setAttribute('id',`book-${book.id}`);
         article_book.setAttribute('data-book_id',`${book.id}`)
+
+        const btnEdit = document.createElement('button');
+        btnEdit.classList.add('yellow','editBtn');
+        btnEdit.innerText ="EDIT data buku";
 
         if(book.isComplete === true) {
             const btnUndo = document.createElement('button');
@@ -146,7 +155,7 @@
             //     delBook(book.id);
             // })
 
-            divBtn.append(btn_delete_book,btnUndo);
+            divBtn.append(btn_delete_book,btnUndo,btnEdit);
             article_book.append(divBtn);
         } else {
             const btnDone = document.createElement('button');
@@ -162,7 +171,7 @@
             //     delBook(book.id);
             // })
 
-            divBtn.append(btn_delete_book,btnDone);
+            divBtn.append(btn_delete_book,btnDone,btnEdit);
             article_book.append(divBtn);
         }
 
@@ -218,8 +227,6 @@
     }
 
     
-
-
     function searchBooks() {
         const searchTitle = document.getElementById('searchBookTitle').value;
         const searchResults = books.filter(book => book.title.includes(searchTitle));
@@ -243,6 +250,23 @@
         }
         }
     }  
+
+    function editBook(Id_book) {
+        const idBook =findBook_id(Id_book)
+        const default_title = idBook.title;
+        const default_author = idBook.author;
+        const default_year = idBook.year;
+        
+        idBook.title = prompt('Edit judul buku', default_title);
+        let autohor = idBook.author = prompt('Edit Penulis buku',default_author);
+        idBook.year = prompt('Edit tahun rilis',default_year);
+
+        if(autohor != null) {
+            idBook.author = default_author
+        }
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        saveDate();
+    }
 
     function saveDate(){
         if(isStorageExist()){
