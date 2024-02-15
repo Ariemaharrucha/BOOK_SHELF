@@ -252,21 +252,32 @@
     }  
 
     function editBook(Id_book) {
-        const idBook =findBook_id(Id_book)
-        const default_title = idBook.title;
-        const default_author = idBook.author;
-        const default_year = idBook.year;
-        
-        idBook.title = prompt('Edit judul buku', default_title);
-        let autohor = idBook.author = prompt('Edit Penulis buku',default_author);
-        idBook.year = prompt('Edit tahun rilis',default_year);
-
-        if(autohor != null) {
-            idBook.author = default_author
+        const idBook = findBook_id(Id_book);
+    
+        if (idBook) {
+            const default_title = idBook.title;
+            const default_author = idBook.author;
+            const default_year = idBook.year;
+    
+            const newTitle = prompt('Edit judul buku', default_title);
+            const newAuthor = prompt('Edit Penulis buku', default_author);
+            const newYear = prompt('Edit tahun rilis', default_year);
+    
+            if (newTitle !== null) {
+                idBook.title = newTitle;
+            }
+            if (newAuthor !== null) {
+                idBook.author = newAuthor;
+            }
+            if (newYear !== null) {
+                idBook.year = newYear;
+            }
+    
+            document.dispatchEvent(new Event(RENDER_EVENT));
+            saveDate();
         }
-        document.dispatchEvent(new Event(RENDER_EVENT));
-        saveDate();
     }
+    
 
     function saveDate(){
         if(isStorageExist()){
