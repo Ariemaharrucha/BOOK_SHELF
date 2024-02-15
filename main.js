@@ -9,6 +9,8 @@
 
         submitForm.addEventListener('submit',function (event) {
             event.preventDefault();
+
+            
             addBook();
         })
 
@@ -93,16 +95,16 @@
     function addBook () {
         const title = document.getElementById('inputBookTitle').value;
         const author = document.getElementById('inputBookAuthor').value;
-        const year = parseFloat(document.getElementById('inputBookYear').value);
+        const year = parseInt(document.getElementById('inputBookYear').value);
         const isComplete = document.getElementById('inputBookIsComplete').checked;
 
         const generateID = generateid();
 
         const book = generateBook(generateID,title,author,year,isComplete)
         books.push(book);
-
         document.dispatchEvent(new Event(RENDER_EVENT));
         saveDate();
+        
     }
 
     function generateid () {
@@ -131,8 +133,7 @@
 
         titleBook.innerText = `Penulis : ${book.author}`;
         tahun.innerText= `Tahun Rilis : ${book.year}`;
-
-    
+   
         const divBtn = document.createElement('div');
         divBtn.classList.add('action');
         const btn_delete_book = document.createElement('button');
@@ -152,32 +153,12 @@
             const btnUndo = document.createElement('button');
             btnUndo.innerText = 'Belum selesai di Baca';
             btnUndo.classList.add('green','undoBtn');
-
-            // event undo and del
-            // btnUndo.addEventListener('click',function(){
-            //     undo_readComplete(book.id);
-            // })
-
-            // btn_delete_book.addEventListener('click',function(){
-            //     delBook(book.id);
-            // })
-
             divBtn.append(btn_delete_book,btnUndo,btnEdit);
             article_book.append(divBtn);
         } else {
             const btnDone = document.createElement('button');
             btnDone.innerText = 'selesai di Baca';
             btnDone.classList.add('green','doneBtn');
-
-            //btn done
-            // btnDone.addEventListener('click',function(){
-            //     readComplete(book.id);
-            // })
-
-            // btn_delete_book.addEventListener('click',function(){
-            //     delBook(book.id);
-            // })
-
             divBtn.append(btn_delete_book,btnDone,btnEdit);
             article_book.append(divBtn);
         }
@@ -237,7 +218,7 @@
     function searchBooks() {
         const searchTitle = document.getElementById('searchBookTitle').value;
         const searchResults = books.filter(book => book.title.includes(searchTitle));
-    
+        
         renderBooks(searchResults);
     }
 
@@ -246,16 +227,23 @@
         const completeBookshelfList = document.getElementById('completeBookshelfList');
         incompleteBookshelfList.innerHTML = '';
         completeBookshelfList.innerHTML = '';
-    
-        for (const bookItem of booksToRender) {
-        const bookelement = makeBook(bookItem);
-    
-        if (bookItem.isComplete === true) {
-            completeBookshelfList.append(bookelement);
-        } else {
-            incompleteBookshelfList.append(bookelement);
+        if(booksToRender.length === 0){
+            Swal.fire({
+                icon: "error",
+                title: "buku tidak ada ",
+                text: "Something went wrong!",
+            })
         }
-        }
+        else {
+            for (const bookItem of booksToRender) {
+                const bookelement = makeBook(bookItem);         
+                if (bookItem.isComplete === true) {
+                    completeBookshelfList.append(bookelement);
+                } else {
+                    incompleteBookshelfList.append(bookelement);
+                }
+            }
+        } 
     }  
 
     function editBook(Id_book) {
@@ -273,7 +261,7 @@
         event.preventDefault()
         
             
-        const editedTitle = toString(document.getElementById('editBookTitle').value);
+        const editedTitle = document.getElementById('editBookTitle').value;
         const editedAuthor = document.getElementById('editBookAuthor').value;
         const editedYear = parseInt(document.getElementById('editBookYear').value) ;
             updateBook(idBook,editedTitle,editedAuthor,editedYear)
@@ -301,15 +289,15 @@
           <form id="editBook">
             <div class="input">
               <label for="inputBookTitle">Judul</label>
-              <input id="editBookTitle" type="text" required value=${idBook.title} >
+              <input id="editBookTitle" type="text" required value="${idBook.title}" >
             </div>
             <div class="input">
               <label for="inputBookAuthor">Penulis</label>
-              <input id="editBookAuthor" type="text" required value=${idBook.author} >
+              <input id="editBookAuthor" type="text" required value="${idBook.author}" >
             </div>
             <div class="input">
               <label for="inputBookYear">Tahun</label>
-              <input id="editBookYear" type="number" required value=${idBook.year} >
+              <input id="editBookYear" type="number" required value="${idBook.year}" >
             </div>
             
             <button id="editBookSubmit" type="submit">Edit data bukku</button>
