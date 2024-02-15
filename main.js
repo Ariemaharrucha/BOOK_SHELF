@@ -22,6 +22,8 @@
         if(isStorageExist()){
             loadDataFromStorage();
         }
+
+
         document.dispatchEvent(new CustomEvent(RENDER_EVENT, { detail: books }));
         
     })
@@ -34,6 +36,7 @@
         const btnEdit = target.classList.contains('editBtn')
         const tes = target.closest('.book_item')
         
+        console.log(target);
         if(undoBtn){
             const id = tes.dataset.book_id;
             console.log(id);
@@ -53,8 +56,10 @@
 
         if(btnEdit){
             const id = tes.dataset.book_id;
-            editBook(id)
+            editBook(id)               
         }
+
+        
         
     })
 
@@ -88,10 +93,11 @@
     function addBook () {
         const title = document.getElementById('inputBookTitle').value;
         const author = document.getElementById('inputBookAuthor').value;
-        const year = document.getElementById('inputBookYear').value;
+        const year = parseFloat(document.getElementById('inputBookYear').value);
         const isComplete = document.getElementById('inputBookIsComplete').checked;
 
         const generateID = generateid();
+
         const book = generateBook(generateID,title,author,year,isComplete)
         books.push(book);
 
@@ -137,9 +143,10 @@
         article_book.setAttribute('id',`book-${book.id}`);
         article_book.setAttribute('data-book_id',`${book.id}`)
 
-        const btnEdit = document.createElement('button');
-        btnEdit.classList.add('yellow','editBtn');
-        btnEdit.innerText ="EDIT data buku";
+        const btnEdit = document.createElement('button')
+        btnEdit.innerHTML = `<button type="button" class="btn btn-primary editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+       edit data buku
+     </button>`;
 
         if(book.isComplete === true) {
             const btnUndo = document.createElement('button');
@@ -253,31 +260,64 @@
 
     function editBook(Id_book) {
         const idBook = findBook_id(Id_book);
-    
-        if (idBook) {
-            const default_title = idBook.title;
-            const default_author = idBook.author;
-            const default_year = idBook.year;
-    
-            const newTitle = prompt('Edit judul buku', default_title);
-            const newAuthor = prompt('Edit Penulis buku', default_author);
-            const newYear = prompt('Edit tahun rilis', default_year);
-    
-            if (newTitle !== null) {
-                idBook.title = newTitle;
-            }
-            if (newAuthor !== null) {
-                idBook.author = newAuthor;
-            }
-            if (newYear !== null) {
-                idBook.year = newYear;
-            }
-    
+        const modal_Body = document.getElementById('modal_body')  
+
+        
+
+        const formEdit = editForm(idBook)
+        modal_Body.innerHTML = formEdit;
+
+        const submitEditBook = document.getElementById('editBook')
+
+        submitEditBook.addEventListener('submit',function(event){
+        event.preventDefault()
+        
+            
+        const editedTitle = toString(document.getElementById('editBookTitle').value);
+        const editedAuthor = document.getElementById('editBookAuthor').value;
+        const editedYear = parseInt(document.getElementById('editBookYear').value) ;
+            updateBook(idBook,editedTitle,editedAuthor,editedYear)
+
             document.dispatchEvent(new Event(RENDER_EVENT));
-            saveDate();
-        }
+        
+        })
+    }
+
+    function updateBook(book,editTitle,editAuthor,edityear) {
+        book.title = editTitle;
+        book.author = editAuthor;
+        book.year = edityear;
+
+        saveDate()
     }
     
+    function editForm(idBook){
+       return `<div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editBook">
+            <div class="input">
+              <label for="inputBookTitle">Judul</label>
+              <input id="editBookTitle" type="text" required value=${idBook.title} >
+            </div>
+            <div class="input">
+              <label for="inputBookAuthor">Penulis</label>
+              <input id="editBookAuthor" type="text" required value=${idBook.author} >
+            </div>
+            <div class="input">
+              <label for="inputBookYear">Tahun</label>
+              <input id="editBookYear" type="number" required value=${idBook.year} >
+            </div>
+            
+            <button id="editBookSubmit" type="submit">Edit data bukku</button>
+          </form>
+        </div>
+        
+      </div>`
+    }
 
     function saveDate(){
         if(isStorageExist()){
