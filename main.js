@@ -5,18 +5,16 @@
 
     document.addEventListener('DOMContentLoaded',function(){
 
+        //add book
         const submitForm = document.getElementById('inputBook');
-
         submitForm.addEventListener('submit',function (event) {
-            event.preventDefault();
-            
+            event.preventDefault();         
             addBook();
         })
 
+        //search bbok
         const searchForm = document.getElementById('searchBook');
-
-        searchForm.addEventListener('submit', function (event) {
-            
+        searchForm.addEventListener('submit', function (event) {         
             event.preventDefault();
             searchBooks();
         });
@@ -25,11 +23,17 @@
             loadDataFromStorage();
         }
 
+        //input search
+        const searchBookTitle = document.getElementById('searchBookTitle');
+        searchBookTitle.addEventListener('blur',function(){
+            searchBooks(books)
+        })
 
         document.dispatchEvent(new CustomEvent(RENDER_EVENT, { detail: books }));
         
     })
 
+    //new element
     document.addEventListener('click',function(e){
         const target = e.target;
         const undoBtn = target.classList.contains('undoBtn');
@@ -65,10 +69,12 @@
         
     })
 
+    //save event
     document.addEventListener(SAVE_EVENT,function(){
         console.log(localStorage.getItem(STORAGE_KEY));
     })
 
+    //render event
     document.addEventListener(RENDER_EVENT,function(event){
 
         // document.dispatchEvent(new Event(RENDER_EVENT));
@@ -92,6 +98,7 @@
 
     })
 
+    //add book
     function addBook () {
         const title = document.getElementById('inputBookTitle').value;
         const author = document.getElementById('inputBookAuthor').value;
@@ -111,6 +118,8 @@
         return +new Date();
     }
 
+
+    //add list book
     function generateBook (id,title,author,year,isComplete) {
         return {
             id,
@@ -166,6 +175,7 @@
         return article_book
     }
 
+    //read book
     function readComplete(idComplete) {
         const readBook = findBook_id(idComplete)
         if (readBook == null) return;
@@ -175,6 +185,7 @@
 
     }
 
+    //undo readComplete
     function undo_readComplete(idUndo){
         console.log(`tes ${idUndo}`);
         const readBook = findBook_id(idUndo)
@@ -187,7 +198,8 @@
 
     }
 
-    function  delBook(bookid) {
+    //delete book
+    function delBook(bookid) {
         const bookTarget = findBookIndex(bookid)
 
         if(bookTarget === -1) return;
@@ -196,6 +208,7 @@
         saveDate();
     }
 
+    //mencari id
     function findBook_id(bookId) {
         for (const bookItem of books) {
             if(bookItem.id == bookId) {
@@ -215,6 +228,7 @@
     }
 
     
+    //search book
     function searchBooks() {
         const searchTitle = document.getElementById('searchBookTitle').value;
         
@@ -252,6 +266,8 @@
         
     }  
 
+
+    //edit data
     function editBook(Id_book) {
         const idBook = findBook_id(Id_book);
         const modal_Body = document.getElementById('modal_body')  
@@ -313,6 +329,8 @@
       </div>`
     }
 
+
+    //storage
     function saveDate(){
         if(isStorageExist()){
             const parsed = JSON.stringify(books);
