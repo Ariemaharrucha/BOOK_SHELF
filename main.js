@@ -9,7 +9,6 @@
 
         submitForm.addEventListener('submit',function (event) {
             event.preventDefault();
-
             
             addBook();
         })
@@ -17,6 +16,7 @@
         const searchForm = document.getElementById('searchBook');
 
         searchForm.addEventListener('submit', function (event) {
+            
             event.preventDefault();
             searchBooks();
         });
@@ -217,24 +217,30 @@
     
     function searchBooks() {
         const searchTitle = document.getElementById('searchBookTitle').value;
-        const searchResults = books.filter(book => book.title.includes(searchTitle));
         
-        renderBooks(searchResults);
+        const searchResults = books.filter(book => book.title.includes(searchTitle));
+        if(searchResults.length === 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                footer: '<a href="#">Why do I have this issue?</a>'
+              })             
+        } 
+        else {
+            renderBooks(searchResults);
+        }
     }
 
     function renderBooks(booksToRender) {
         const incompleteBookshelfList = document.getElementById('incompleteBookshelfList');
         const completeBookshelfList = document.getElementById('completeBookshelfList');
+
+        document.getElementById('inputBook').reset();
+        
         incompleteBookshelfList.innerHTML = '';
         completeBookshelfList.innerHTML = '';
-        if(booksToRender.length === 0){
-            Swal.fire({
-                icon: "error",
-                title: "buku tidak ada ",
-                text: "Something went wrong!",
-            })
-        }
-        else {
+       
             for (const bookItem of booksToRender) {
                 const bookelement = makeBook(bookItem);         
                 if (bookItem.isComplete === true) {
@@ -243,7 +249,7 @@
                     incompleteBookshelfList.append(bookelement);
                 }
             }
-        } 
+        
     }  
 
     function editBook(Id_book) {
