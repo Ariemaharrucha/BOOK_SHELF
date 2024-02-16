@@ -40,6 +40,7 @@
         const doneBtn = target.classList.contains('doneBtn');
         const delBtn = target.classList.contains('delBtn');
         const btnEdit = target.classList.contains('editBtn')
+        // const modal_backdrop = target.classList.contains('modal-backdrop')
         const tes = target.closest('.book_item')
         
         console.log(target);
@@ -65,13 +66,15 @@
             editBook(id)               
         }
 
-        
+        // if(modal_backdrop){
+        //     console.log(`tes`);
+        // }
         
     })
 
     //save event
     document.addEventListener(SAVE_EVENT,function(){
-        console.log(localStorage.getItem(STORAGE_KEY));
+        console.log(sessionStorage.getItem(STORAGE_KEY));
     })
 
     //render event
@@ -92,10 +95,11 @@
         //         incompleteBookshelfList.append(bookelement)
         //     }
         // } 
-
         const booksToRender = event.detail ? event.detail : books;
         renderBooks(booksToRender);
 
+        // const backdrop = document.getElementsByClassName('modal-backdrop');
+        
     })
 
     //add book
@@ -250,6 +254,8 @@
         const incompleteBookshelfList = document.getElementById('incompleteBookshelfList');
         const completeBookshelfList = document.getElementById('completeBookshelfList');
 
+            
+
         document.getElementById('inputBook').reset();
         
         incompleteBookshelfList.innerHTML = '';
@@ -271,9 +277,10 @@
     function editBook(Id_book) {
         const idBook = findBook_id(Id_book);
         const modal_Body = document.getElementById('modal_body')  
-
+        // const editModal = new bootstrap.Modal(document.getElementById('exampleModal'));
         
 
+        // editModal.show();
         const formEdit = editForm(idBook)
         modal_Body.innerHTML = formEdit;
 
@@ -285,12 +292,16 @@
             
         const editedTitle = document.getElementById('editBookTitle').value;
         const editedAuthor = document.getElementById('editBookAuthor').value;
-        const editedYear = parseInt(document.getElementById('editBookYear').value) ;
-            updateBook(idBook,editedTitle,editedAuthor,editedYear)
+        const editedYear = parseInt(document.getElementById('editBookYear').value);
 
-            document.dispatchEvent(new Event(RENDER_EVENT));
+        updateBook(idBook,editedTitle,editedAuthor,editedYear)
+
         
+        document.dispatchEvent(new Event(RENDER_EVENT));
+        // editModal.hide();
         })
+
+        
     }
 
     function updateBook(book,editTitle,editAuthor,edityear) {
@@ -299,7 +310,8 @@
         book.year = edityear;
 
         saveDate()
-    }
+        
+    }   
     
     function editForm(idBook){
        return `<div class="modal-content">
@@ -322,7 +334,7 @@
               <input id="editBookYear" type="number" required value="${idBook.year}" >
             </div>
             
-            <button id="editBookSubmit" type="submit">Edit data bukku</button>
+            <button id="editBookSubmit" type="submit" data-bs-dismiss="modal">Edit data bukku</button>
           </form>
         </div>
         
@@ -334,7 +346,7 @@
     function saveDate(){
         if(isStorageExist()){
             const parsed = JSON.stringify(books);
-            localStorage.setItem(STORAGE_KEY, parsed);
+            sessionStorage.setItem(STORAGE_KEY, parsed);
             document.dispatchEvent(new Event(SAVE_EVENT));
         }
     }
@@ -349,7 +361,7 @@
     }
 
     function loadDataFromStorage(){
-        const serializedData = localStorage.getItem(STORAGE_KEY);
+        const serializedData = sessionStorage.getItem(STORAGE_KEY);
         let data = JSON.parse(serializedData);
     
         if (data !== null) {
