@@ -40,7 +40,7 @@
         const doneBtn = target.classList.contains('doneBtn');
         const delBtn = target.classList.contains('delBtn');
         const btnEdit = target.classList.contains('editBtn')
-        // const modal_backdrop = target.classList.contains('modal-backdrop')
+        
         const tes = target.closest('.book_item')
         
         console.log(target);
@@ -52,7 +52,7 @@
 
         if(doneBtn) {
             const id = tes.dataset.book_id;
-            // console.log(id);
+            
             readComplete(id)
         }
 
@@ -66,9 +66,6 @@
             editBook(id)               
         }
 
-        // if(modal_backdrop){
-        //     console.log(`tes`);
-        // }
         
     })
 
@@ -98,7 +95,6 @@
         const booksToRender = event.detail ? event.detail : books;
         renderBooks(booksToRender);
 
-        // const backdrop = document.getElementsByClassName('modal-backdrop');
         
     })
 
@@ -277,10 +273,7 @@
     function editBook(Id_book) {
         const idBook = findBook_id(Id_book);
         const modal_Body = document.getElementById('modal_body')  
-        // const editModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-        
 
-        // editModal.show();
         const formEdit = editForm(idBook)
         modal_Body.innerHTML = formEdit;
 
@@ -298,7 +291,7 @@
 
         
         document.dispatchEvent(new Event(RENDER_EVENT));
-        // editModal.hide();
+
         })
 
         
