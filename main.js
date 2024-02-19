@@ -40,7 +40,7 @@
         const doneBtn = target.classList.contains('doneBtn');
         const delBtn = target.classList.contains('delBtn');
         const btnEdit = target.classList.contains('editBtn')
-        
+         
         const tes = target.closest('.book_item')
         
         console.log(target);
