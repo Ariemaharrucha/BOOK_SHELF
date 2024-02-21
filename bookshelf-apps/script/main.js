@@ -77,7 +77,7 @@ document.addEventListener('click',function(e){
 
 //save event
 document.addEventListener(SAVE_EVENT,function(){
-    console.log(sessionStorage.getItem(STORAGE_KEY));
+    console.log(localStorage.getItem(STORAGE_KEY));
 })
 
 
@@ -119,31 +119,30 @@ function generateBook (id,title,author,year,isComplete) {
 
 function makeBook(book) {
     
-const card = `<div class="card mb-3  border-4 book_item" style="max-width: 540px;" id="book-${book.id}" data-book_id="${book.id}">
-                            
-    <div class="d-flex g-0 p-1 align-items-center justify-content-around p-">
-      <div class="ms-3  ">
-      <img src="img/Book.png" class="  d-inline-block " alt="...">
-      </div>
-
-        <div class="card-body">
-          <h5 class="card-title">${book.title}</h5>
-          <p class="card-text">Penulis: ${book.author}</p>
-          <p class="card-text"><small class="text-body-secondary">Tahun: ${book.year}</small></p>
+const card = `<div class="card mb-3  border-3 book_item rounded" style="max-width: 400px;" id="book-${book.id}" data-book_id="${book.id}">                        
+        <div class="d-flex g-0 p-1 align-items-center justify-content-around ">
+        <div class="ms-3  ">
+        <img src="img/Book.png" class="  d-inline-block " alt="...">
         </div>
 
-    </div>
-      
-        <div class="btn-group mt-2 btn_listBook " role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
-            ${book.isComplete 
-                ? `<button type="button" class="btn btn-success undoBtn">Undo</button>`
-                : `<button type="button" class="btn btn-success doneBtn">Done</button>`
-              }
-            <button type="button" class="btn btn-primary rounded-0 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</button>
+            <div class="card-body">
+            <h5 class="card-title">${book.title}</h5>
+            <p class="card-text">Penulis: ${book.author}</p>
+            <p class="card-text"><small class="text-body-secondary">Tahun: ${book.year}</small></p>
+            </div>
+
         </div>
         
-  </div>`
+            <div class="btn-group mt-2 btn_listBook " role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
+                ${book.isComplete 
+                    ? `<button type="button" class="btn btn-success undoBtn">Undo</button>`
+                    : `<button type="button" class="btn btn-success doneBtn">Done</button>`
+                }
+                <button type="button" class="btn btn-primary rounded-0 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</button>
+            </div>
+            
+        </div>`
 
     return card
 }
@@ -293,7 +292,7 @@ function editForm(idBook){
        </div>
        <div class="mb-3">
          <label for="editBookYear" class="form-label">input Tahun terbit</label>
-         <input type="text" class="form-control" id="editBookYear"  required value="${idBook.year}">
+         <input type="number" class="form-control" id="editBookYear"  required value="${idBook.year}">
        </div>
 
        <div class="modal-footer">
@@ -349,7 +348,7 @@ function renderBooks(booksToRender) {
 function saveDate(){
     if(isStorageExist()){
         const parsed = JSON.stringify(books);
-        sessionStorage.setItem(STORAGE_KEY, parsed);
+        localStorage.setItem(STORAGE_KEY, parsed);
         document.dispatchEvent(new Event(SAVE_EVENT));
     }
 }
@@ -364,7 +363,7 @@ function isStorageExist() {
 }
 
 function loadDataFromStorage(){
-    const serializedData = sessionStorage.getItem(STORAGE_KEY);
+    const serializedData = localStorage.getItem(STORAGE_KEY);
     let data = JSON.parse(serializedData);
 
     if (data !== null) {
