@@ -3,7 +3,7 @@
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Bootstrap demo</title>
+      <title>Bookshelf Apps</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
@@ -14,7 +14,6 @@
               <!-- form -->
               <div class="mt-5 border p-4 rounded shadow-lg ">
 
-                  
                     <form id="inputBook" >
                       <h2>Masukkan Buku Baru</h2>
                       <div class="mb-3">
@@ -37,11 +36,11 @@
                         <input id="inputBookIsComplete" type="checkbox" >
                       </div>
                       <div class="d-grid gap-2">
-                      <button id="bookSubmit" type="submit" class="btn btn-primary">Submit</button>
+                      <button id="bookSubmit" type="submit" class="btn btn-primary">Tambah ke Rak</button>
                       </div>
+
                     </form> 
-                  
-                
+
               </div>
 
               <div class=" mt-2 " >
@@ -62,35 +61,9 @@
                       <div class=" rounded-bottom py-2 p-5  overflow-auto" style="background-color: rgb(235, 235, 235);  max-height:26rem ; width: 418px;">
 
                         <div id="incompleteBookshelfList">
-
-                          <!-- <div class="card mb-3  border-4" style="max-width: 540px;">
-                            
-                            <div class="d-flex g-0 p-1 align-items-center justify-content-around p-">
-                              <div class="ms-3  ">
-                              <img src="img/Book.png" class="  d-inline-block " alt="...">
-                              </div>
-
-                                <div class="card-body">
-                                  <h5 class="card-title">Book Title</h5>
-                                  <p class="card-text">Penulis: John Doe lor</p>
-                                  <p class="card-text"><small class="text-body-secondary">Tahun: 2002</small></p>
-                                </div>
-
-                            </div>
-
-                                <div class="btn-group mt-2 " role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
-                                    <button type="button" class="btn btn-success doneBtn">Selesai dibaca</button>
-                                    <button type="button" class="btn btn-warning rounded-0 editBtn">edit</button>
-                                </div>
-                                
-                          </div> -->
-
-                          
-                          
+                         
                         </div>
 
-                      
                     </div>
                     </div>
                     
@@ -99,33 +72,7 @@
                       <div class=" rounded-bottom py-2 p-5  overflow-auto " style="background-color: rgb(235, 235, 235);  max-height:26rem ; width: 418px;">
 
                         <div id="completeBookshelfList">
-    
-                          <!-- <div class="card mb-3  border-4" style="max-width: 540px;">
-                            
-                            <div class="d-flex g-0 align-items-center justify-content-around p-">
-                              <div class="ms-3  ">
-                              <img src="img/Book.png" class="  d-inline-block " alt="...">
-                              </div>
-    
-                                <div class="card-body">
-                                  <h5 class="card-title">Book Title</h5>
-                                  <p class="card-text">Penulis: John Doe lor</p>
-                                  <p class="card-text"><small class="text-body-secondary">Tahun: 2002</small></p>
-                                </div>
-    
-                            </div>
-    
-                                <div class="btn-group mt-2 " role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
-                                    <button type="button" class="btn btn-success doneBtn">Selesai dibaca</button>
-                                    <button type="button" class="btn btn-warning rounded-0 editBtn">edit</button>
-                                </div>
-                                
-                          </div> -->
 
-                          
-  
-                            
                       </div>
                     </div>
                   
@@ -138,8 +85,18 @@
             </div>  
       </div>
       
+      <!-- Modal -->
+      <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div class="modal-dialog" id="modal_body">
+          
+        </div>
+      </div>
+
+
+
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
       <script src="script/main.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>
   </html>

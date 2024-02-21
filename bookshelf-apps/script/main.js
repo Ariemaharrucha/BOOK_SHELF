@@ -17,10 +17,23 @@ document.addEventListener('DOMContentLoaded',function(){
             searchBooks();
         });
 
+        if(isStorageExist()){
+            loadDataFromStorage();
+        }
+
         const searchBookTitle = document.getElementById('searchBookTitle');
         searchBookTitle.addEventListener('blur',function(){
             searchBooks(books)
-        })
+        });
+
+        setTimeout(() => {
+            Swal.fire({
+                title: "Welcome",
+                text: "in Bookshelf Apps",
+                
+                
+              });
+        }, 1000);
 
         document.dispatchEvent(new CustomEvent(RENDER_EVENT, { detail: books }));
 })
@@ -30,7 +43,7 @@ document.addEventListener('click',function(e){
     const undoBtn = target.classList.contains('undoBtn');
     const doneBtn = target.classList.contains('doneBtn');
     const delBtn = target.classList.contains('delBtn');
-    // const btnEdit = target.classList.contains('editBtn')
+    const btnEdit = target.classList.contains('editBtn')
      
     const tes = target.closest('.book_item')   
     // console.log(target);
@@ -53,13 +66,20 @@ document.addEventListener('click',function(e){
         delBook(id);
     }
 
-    // if(btnEdit){
-    //     const id = tes.dataset.book_id;
-    //     editBook(id)               
-    // }
+    if(btnEdit){
+        const id = tes.dataset.book_id;
+        editBook(id)               
+    }
 
     
 })
+
+
+//save event
+document.addEventListener(SAVE_EVENT,function(){
+    console.log(sessionStorage.getItem(STORAGE_KEY));
+})
+
 
 document.addEventListener(RENDER_EVENT,function(event){
     const booksToRender = event.detail ? event.detail : books;
@@ -77,7 +97,7 @@ function addBook () {
     const book = generateBook(generateID,title,author,year,isComplete)
     books.push(book);
     document.dispatchEvent(new Event(RENDER_EVENT));
-    // saveDate();
+    saveDate();
     
 }
 
@@ -120,7 +140,7 @@ const card = `<div class="card mb-3  border-4 book_item" style="max-width: 540px
                 ? `<button type="button" class="btn btn-success undoBtn">Undo</button>`
                 : `<button type="button" class="btn btn-success doneBtn">Done</button>`
               }
-            <button type="button" class="btn btn-warning rounded-0 editBtn">edit</button>
+            <button type="button" class="btn btn-primary rounded-0 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</button>
         </div>
         
   </div>`
@@ -135,7 +155,7 @@ const card = `<div class="card mb-3  border-4 book_item" style="max-width: 540px
     if (readBook == null) return;
     readBook.isComplete = true;
     document.dispatchEvent(new Event(RENDER_EVENT));
-    // saveDate();
+    saveDate();
 
 }
 
@@ -148,19 +168,56 @@ function undo_readComplete(idUndo){
     
     readBook.isComplete = false;
     document.dispatchEvent(new Event(RENDER_EVENT));
-    // saveDate();
+    saveDate();
 
 }
 
 //delete book
 function delBook(bookid) {
-    const bookTarget = findBookIndex(bookid)
+    const bookTarget = findBookIndex(bookid);
 
-    if(bookTarget === -1) return;
-    books.splice(bookTarget,1);
-    document.dispatchEvent(new Event(RENDER_EVENT));
-    // saveDate();
+    if (bookTarget === -1) {
+        return;
+    }
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        
+    });
+
+    swalWithBootstrapButtons.fire({
+        title: "Mengahapus buku",
+        text: "Apakah anda yakin mengahapus buku ini ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Hapus",
+        cancelButtonText: "Batal",
+        reverseButtons: true,
+        
+    }).then((result) => {
+        if (result.isConfirmed) {
+            books.splice(bookTarget, 1);
+            swalWithBootstrapButtons.fire({
+                title: "Buku telah di hapus.",
+                icon: "success"
+            });
+            document.dispatchEvent(new Event(RENDER_EVENT));
+            saveDate();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire({
+                text: "Buku anda masih tersimpan",
+                icon: "error"
+            });
+            document.dispatchEvent(new Event(RENDER_EVENT));
+            saveDate();
+        }
+    });
+
 }
+
 
 function findBook_id(bookId) {
     for (const bookItem of books) {
@@ -181,19 +238,88 @@ function findBookIndex(bookId) {
 }
 
 
+//edit
+function editBook(Id_book) {
+    const idBook = findBook_id(Id_book);
+    const modal_Body = document.getElementById('modal_body')  
+
+    const formEdit = editForm(idBook)
+    modal_Body.innerHTML = formEdit;
+
+    const submitEditBook = document.getElementById('editBook')
+
+    submitEditBook.addEventListener('submit',function(event){
+    event.preventDefault()
+    
+        
+    const editedTitle = document.getElementById('editBookTitle').value;
+    const editedAuthor = document.getElementById('editBookAuthor').value;
+    const editedYear = parseInt(document.getElementById('editBookYear').value);
+
+    updateBook(idBook,editedTitle,editedAuthor,editedYear)
+
+    
+    document.dispatchEvent(new Event(RENDER_EVENT));
+
+    })
+
+    
+}
+
+function updateBook(book,editTitle,editAuthor,edityear) {
+    book.title = editTitle;
+    book.author = editAuthor;
+    book.year = edityear;
+    saveDate()  
+}   
+
+function editForm(idBook){
+   return `<div class="modal-content">
+   <div class="modal-header">
+     <h1 class="modal-title fs-5" id="exampleModal1Label">Edit Data buku</h1>
+   </div>
+   <div class="modal-body">
+     <form id="editBook" >
+       
+       <div class="mb-3">
+         <label for="editBookTitle" class="form-label">input Buku</label>
+         <input type="text" class="form-control" id="editBookTitle"  required value="${idBook.title}">
+         
+       </div>
+       <div class="mb-3">
+         <label for="editBookAuthor" class="form-label">input Penulis</label>
+         <input type="text" class="form-control" id="editBookAuthor"  required value="${idBook.author}">
+         
+       </div>
+       <div class="mb-3">
+         <label for="editBookYear" class="form-label">input Tahun terbit</label>
+         <input type="text" class="form-control" id="editBookYear"  required value="${idBook.year}">
+       </div>
+
+       <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+         <button class="btn btn-success" id="editBookSubmit" type="submit" data-bs-dismiss="modal" >Edit data bukku</button>
+       </div>
+       
+     </form> 
+   </div>
+   
+ </div>`
+}
+
+
 //search book
 function searchBooks() {
-    const searchTitle = document.getElementById('searchBookTitle').value;
+    const searchTitle = document.getElementById('searchBookTitle');
     
-    const searchResults = books.filter(book => book.title.includes(searchTitle));
+    const searchResults = books.filter(book => book.title.includes(searchTitle.value));
     if(searchResults.length === 0) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Something went wrong!",
-            footer: '<a href="#">Why do I have this issue?</a>'
+            text: "Buku tidak ada",  
           })             
-    } 
+    }
     else {
         renderBooks(searchResults);
     }
@@ -218,3 +344,34 @@ function renderBooks(booksToRender) {
             }
         }   
 }  
+
+//storage
+function saveDate(){
+    if(isStorageExist()){
+        const parsed = JSON.stringify(books);
+        sessionStorage.setItem(STORAGE_KEY, parsed);
+        document.dispatchEvent(new Event(SAVE_EVENT));
+    }
+}
+
+function isStorageExist() {
+    if(typeof (Storage) === undefined) {
+        alert ('Browser kamu tidak mendukung local storage');
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function loadDataFromStorage(){
+    const serializedData = sessionStorage.getItem(STORAGE_KEY);
+    let data = JSON.parse(serializedData);
+
+    if (data !== null) {
+        for (const book of data) {
+            books.push(book);
+        }
+    }
+
+    document.dispatchEvent(new Event(RENDER_EVENT));
+}
