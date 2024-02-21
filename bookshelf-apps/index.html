@@ -10,7 +10,7 @@
     <body>
       
       <div class="  px-4 py-2">
-          <div class="d-flex flex-column flex-md-row   ">
+          <div class="d-flex flex-column flex-md-row  justify-content-around    ">
               <!-- form -->
               <div class="mt-5 border p-4 rounded  ">
 
@@ -46,104 +46,42 @@
               <div class="mt-2 " >
 
                 <!-- search -->
-                <form  id="searchBook" class="input-group rounded md-w-50 mx-auto">
-                  <input type="text" class="form-control " placeholder="Cari buku" aria-label="Search" aria-describedby="search-addon" id="searchBookTitle" />
-                  <button id="searchSubmit" type="submit" class="btn btn-primary">Cari</button>
-                </form>
+                <div class="row">
+                  <form  id="searchBook" class="input-group rounded col ">
+                    <input type="text" class="form-control " placeholder="Cari buku" aria-label="Search" aria-describedby="search-addon" id="searchBookTitle" />
+                    <button id="searchSubmit" type="submit" class="btn btn-primary">Cari</button>
+                  </form>
+                </div>
+                  
+                
 
-                <div class="md-ms-4">
+
+                <div class="ms-0 ms-md-4">
 
                 <!-- booklist -->
                   <div class="d-flex mt-4 gap-2 justify-content-around flex-column flex-md-row " >
 
-                    <div class="book_list ">
-                      <div class="border rounded-top"><h5 class="text-center mt-2">Belum selesai di baca</h5></div>
+                    <div class="book_list" >
+                      <h5 class="text-center  mx-5">Belum selesai di baca</h5>
                       <div class=" rounded-bottom   overflow-auto" style="background-color: rgb(235, 235, 235);  max-height:26rem ; ">
 
                         <div id="incompleteBookshelfList" class="p-2">
                          
-                          <!-- <div class="card mb-3  border-4 book_item" style="max-width: 400px;" id="book-${book.id}" data-book_id="${book.id}">
-                            
-                            <div class="d-flex g-0 p-1 align-items-center justify-content-around ">
-                              <div class="ms-3  ">
-                              <img src="img/Book.png" class="  d-inline-block " alt="...">
-                              </div>
-                        
-                                <div class="card-body">
-                                  <h5 class="card-title">${book.title} Lorem, ipsum dolor.</h5>
-                                  <p class="card-text">Penulis: Lorem ipsum dolor e.</p>
-                                  <p class="card-text"><small class="text-body-secondary">Tahun: ${book.year}</small></p>
-                                </div>
-                        
-                            </div>
-                              
-                                <div class="btn-group mt-2 btn_listBook " role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
-                                    <button type="button" class="btn btn-success undoBtn">Undo</button>
-                                        
-                                    <button type="button" class="btn btn-primary rounded-0 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</button>
-                                </div>
-                                
-                          </div> -->
 
-                          <!-- <div class="card mb-3  border-4 book_item" style="max-width: 400px;" id="book-${book.id}" data-book_id="${book.id}">
-                            
-                            <div class="d-flex g-0 p-1 align-items-center justify-content-around p-">
-                              <div class="ms-3  ">
-                              <img src="img/Book.png" class="  d-inline-block " alt="...">
-                              </div>
-                        
-                                <div class="card-body">
-                                  <h5 class="card-title">${book.title} Lorem, ipsum dolor.</h5>
-                                  <p class="card-text">Penulis: ${book.year}</p>
-                                  <p class="card-text"><small class="text-body-secondary">Tahun: ${book.year}</small></p>
-                                </div>
-                        
-                            </div>
-                              
-                                <div class="btn-group mt-2 btn_listBook " role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
-                                    <button type="button" class="btn btn-success undoBtn">Undo</button>
-                                        
-                                    <button type="button" class="btn btn-primary rounded-0 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</button>
-                                </div>
-                                
-                          </div> -->
+                          
 
                         </div>
 
                     </div>
                     </div>
                     
-                    <div class="book_list">
-                      <div class="border rounded-top"><h5 class="text-center mt-2 ">selesai di baca</h5></div>
+                    <div class="book_list " > 
+                      <!-- style="min-width: 23.25rem;" -->
+                      <h5 class="text-center mx-5 ">selesai di baca</h5>
                       <div class=" rounded-bottom   overflow-auto " style="background-color: rgb(235, 235, 235);  max-height:26rem ; ">
 
                         <div id="completeBookshelfList" class="p-2" >
 
-                          <!-- <div class="card mb-3  border-4 book_item" style="max-width: 400px;" id="book-${book.id}" data-book_id="${book.id}">
-                            
-                            <div class="d-flex g-0 p-1 align-items-center justify-content-around p-">
-                              <div class="ms-3  ">
-                              <img src="img/Book.png" class="  d-inline-block " alt="...">
-                              </div>
-                        
-                                <div class="card-body">
-                                  <h5 class="card-title">${book.title}</h5>
-                                  <p class="card-text">Penulis: Lorem ipsum dolor sit amet consectetur</p>
-                                  <p class="card-text"><small class="text-body-secondary">Tahun: ${book.year}</small></p>
-                                </div>
-                        
-                            </div>
-                              
-                                <div class="btn-group mt-2 btn_listBook " role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger rounded-0 delBtn">Hapus</button>
-                                    <button type="button" class="btn btn-success undoBtn">Undo</button>
-                                        
-                                    <button type="button" class="btn btn-primary rounded-0 editBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">edit</button>
-                                </div>
-                                
-                          </div> -->
 
                         </div>
                       </div>
