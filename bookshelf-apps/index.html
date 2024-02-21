@@ -4,34 +4,36 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Bookshelf Apps</title>
+      <link rel="stylesheet" href="style.css">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      
     </head>
     <body>
       
-      <div class="  px-4 py-2">
+      <div class="px-4 py-2">
           <div class="d-flex flex-column flex-md-row  justify-content-around    ">
               <!-- form -->
               <div class="mt-5 border p-4 rounded  ">
 
                     <form id="inputBook" >
-                      <h2>Masukkan Buku Baru</h2>
+                      <h2 class="text-primary">Masukkan Buku Baru</h2>
                       <div class="mb-3">
-                        <label for="inputBookTitle" class="form-label">input Buku</label>
+                        <label for="inputBookTitle" class="form-label text-primary">input Buku</label>
                         <input type="text" class="form-control" id="inputBookTitle"  required>
                         
                       </div>
                       <div class="mb-3">
-                        <label for="inputBookAuthor" class="form-label">input Penulis</label>
+                        <label for="inputBookAuthor" class="form-label text-primary">input Penulis</label>
                         <input type="text" class="form-control" id="inputBookAuthor"  required>
                         
                       </div>
                       <div class="mb-3">
-                        <label for="inputBookYear" class="form-label">input Tahun terbit</label>
+                        <label for="inputBookYear" class="form-label text-primary">input Tahun terbit</label>
                         <input type="text" class="form-control" id="inputBookYear"  required>
                       </div>
     
-                      <div class="mb-3  d-flex align-items-center gap-2">
+                      <div class="mb-3  d-flex align-items-center gap-2 text-primary ">
                         <label for="inputBookIsComplete ">Selesai dibaca</label>
                         <input id="inputBookIsComplete" type="checkbox" >
                       </div>
@@ -47,8 +49,8 @@
 
                 <!-- search -->
                 <div class="row">
-                  <form  id="searchBook" class="input-group rounded col ">
-                    <input type="text" class="form-control " placeholder="Cari buku" aria-label="Search" aria-describedby="search-addon" id="searchBookTitle" />
+                  <form  id="searchBook" class="input-group rounded ">
+                    <input type="text" class="form-control  " placeholder="Cari buku" aria-label="Search" aria-describedby="search-addon" id="searchBookTitle" />
                     <button id="searchSubmit" type="submit" class="btn btn-primary">Cari</button>
                   </form>
                 </div>
@@ -56,16 +58,16 @@
                 
 
 
-                <div class="ms-0 ms-md-4">
+                <div class=" ms-md-4 mx-auto">
 
                 <!-- booklist -->
-                  <div class="d-flex mt-4 gap-2 justify-content-around flex-column flex-md-row " >
+                  <div class="d-flex mt-4 gap-2 justify-content-around flex-column flex-md-row align-items-center align-items-md-start    " >
 
-                    <div class="book_list" >
-                      <h5 class="text-center  mx-5">Belum selesai di baca</h5>
-                      <div class=" rounded-bottom   overflow-auto" style="background-color: rgb(235, 235, 235);  max-height:26rem ; ">
+                    <div class="book_list  " style="width: 23.5rem;" >
+                      <h5 class="text-center mx-5 text-primary">Belum selesai di baca</h5>
+                      <div class=" rounded-bottom overflow-auto bg-primary" style="background-color: rgb(235, 235, 235);  max-height:26rem ; ">
 
-                        <div id="incompleteBookshelfList" class="p-2">
+                        <div id="incompleteBookshelfList" class="p-1 d-flex flex-column align-items-center justify-content-center">
                          
 
                           
@@ -75,12 +77,12 @@
                     </div>
                     </div>
                     
-                    <div class="book_list " > 
-                      <!-- style="min-width: 23.25rem;" -->
-                      <h5 class="text-center mx-5 ">selesai di baca</h5>
-                      <div class=" rounded-bottom   overflow-auto " style="background-color: rgb(235, 235, 235);  max-height:26rem ; ">
+                    <div class="book_list   " style="width: 23.5rem;" > 
+                     
+                      <h5 class="text-center mx-5 text-primary">selesai di baca</h5>
+                      <div class=" rounded-bottom overflow-auto bg-primary" style="background-color: rgb(235, 235, 235);  max-height:26rem ; ">
 
-                        <div id="completeBookshelfList" class="p-2" >
+                        <div id="completeBookshelfList" class="p-1 d-flex flex-column align-items-center justify-content-center" >
 
 
                         </div>

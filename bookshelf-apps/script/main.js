@@ -46,23 +46,19 @@ document.addEventListener('click',function(e){
     const btnEdit = target.classList.contains('editBtn')
      
     const tes = target.closest('.book_item')   
-    // console.log(target);
 
     if(undoBtn){
         const id = tes.dataset.book_id;
-        console.log(id);
         undo_readComplete(id)
     }
 
     if(doneBtn) {
-        const id = tes.dataset.book_id; 
-        console.log(id);       
+        const id = tes.dataset.book_id;              
         readComplete(id)
     }
 
     if(delBtn){
         const id = tes.dataset.book_id;
-        console.log(id);
         delBook(id);
     }
 
@@ -70,8 +66,7 @@ document.addEventListener('click',function(e){
         const id = tes.dataset.book_id;
         editBook(id)               
     }
-
-    
+   
 })
 
 
@@ -119,7 +114,7 @@ function generateBook (id,title,author,year,isComplete) {
 
 function makeBook(book) {
     
-const card = `<div class="card mb-3  border-3 book_item rounded" style="max-width: 400px;" id="book-${book.id}" data-book_id="${book.id}">                        
+const card = `<div class="card mb-3 mt-1 border-3   rounded  book_item" style="width: 300px;" id="book-${book.id}" data-book_id="${book.id}">                        
         <div class="d-flex g-0 p-1 align-items-center justify-content-around ">
         <div class="ms-3  ">
         <img src="img/Book.png" class="  d-inline-block " alt="...">
@@ -159,16 +154,12 @@ const card = `<div class="card mb-3  border-3 book_item rounded" style="max-widt
 }
 
 //undo readComplete
-function undo_readComplete(idUndo){
-    console.log(`tes ${idUndo}`);
+function undo_readComplete(idUndo){    
     const readBook = findBook_id(idUndo)
-    console.log(`tesr= ${readBook}`);
-    if (readBook == null) return;
-    
+    if (readBook == null) return;  
     readBook.isComplete = false;
     document.dispatchEvent(new Event(RENDER_EVENT));
     saveDate();
-
 }
 
 //delete book
